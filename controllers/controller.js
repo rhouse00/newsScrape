@@ -7,7 +7,6 @@ const cheerio = require("cheerio");
 const request = require('request')
 
 module.exports = (app) => {
-
     function getArticleTitles(object){
         const resultsArray = [];
 	    for(var i = 0; i < object.length; i++) {
@@ -16,12 +15,11 @@ module.exports = (app) => {
         return resultsArray;
     };
     function saveArticle(scrapedArticle){
-            var entry = new Article(scrapedArticle);
-            entry.save( (error, articleDoc) => {
-                error ? console.log(error) : console.log(`Saved Articles`); // Replacement for if/else statemenet
-            }) // End of Entry
+        var entry = new Article(scrapedArticle);
+        entry.save( (error, articleDoc) => {
+            error ? console.log(error) : console.log(`Saved Articles`); // Replacement for if/else statemenet
+        })
     };
-
 
     app.get('/', (request, response) => {
         const object = {}
@@ -33,31 +31,23 @@ module.exports = (app) => {
             const articleObject = { articleDoc: doc };
             error ? console.log(error) : response.render('carousel', articleObject);
         })
-        // const object = {}
-        // response.render(, object );
     });
 
     app.get('/scrape', (req, res) => {
         Article.find({}, (error, doc) => { return doc; }) // returns object of key/values for title and link
         .then( (articleDoc) => { return getArticleTitles(articleDoc); }) //returns array of titles for duplication checking
-        .then( (titleArray) => { 
-            console.log(titleArray);      
+        .then( (titleArray) => {     
             request('http://www.lifehacker.com/', (error, response, html) => {
                 const $ = cheerio.load(html);
                 $('article').each(function(i, element){
-                    
                     let newArticle = {};
                     newArticle.title = $(element).children('header').children('h1').children('a').text();
                     newArticle.link = $(element).children('header').children('h1').children('a').attr('href');
                     newArticle.image = $(element).children('div').children('figure').children('a').children('div').children('picture').children('source').data('srcset');
                     let titleCheck = newArticle.title;
                     
-                    if(titleArray.includes(titleCheck)) {
-                        return;
-                    }
-                    else  {
-                        saveArticle(newArticle); 
-                    }
+                    if( titleArray.includes(titleCheck) ) { return; }
+                    else { saveArticle(newArticle);  }
                 }); // End of Each
             }); // End of request
         }) // End of 2nd `then`
@@ -69,9 +59,7 @@ module.exports = (app) => {
         Article.find({}).populate({
             path: 'note', 
             options: { 
-                sort: { 
-                    'created_at' : 1
-                }
+                sort: { 'created_at' : 1 }
             }
         }).exec( (error, doc) => {
             const articleObject = { articleDoc: doc };
@@ -96,7 +84,8 @@ module.exports = (app) => {
                     { $push: {'note': noteDoc._id} },
                     (articleError, articleDoc) => {
                        articleError ? console.log(articleError) : res.redirect('/articles');   
-                }) // End of updating Article note
+                    }
+                ) // End of updating Article note
         }); // End of SAVE
     }); // End of Posting Comment
 
@@ -111,8 +100,4 @@ module.exports = (app) => {
             error ? console.log(error) : res.redirect('/articles');
         })
     });
-
-    
-
-
 }; // End of Module.Exports

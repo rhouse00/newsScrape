@@ -33,10 +33,12 @@ require("./controllers/controller.js")(app);
 
 
 // =================== Database configuration with mongoose connecting to Heroku ===================
+
     // production
-// mongoose.connect('mongodb://heroku_01q4ngzf:87dd0o4i016rs0frtav4gj0cr5@ds157667.mlab.com:57667/heroku_01q4ngzf');
+mongoose.connect('mongodb://heroku_01q4ngzf:87dd0o4i016rs0frtav4gj0cr5@ds157667.mlab.com:57667/heroku_01q4ngzf');
+
     // Development
-mongoose.connect("mongodb://localhost/newsScrape");
+// mongoose.connect("mongodb://localhost/newsScrape");
 const db = mongoose.connection;
 
 // Show any mongoose errors
