@@ -1,0 +1,41 @@
+{{!--<div class='row pulldown'> 
+    <div class='col-md-12'>--}}
+        <div class='jumbotron'>
+            <div id='carousel-article' class='carousel slide' data-ride='carousel'>
+                <ol class='carousel-indicators'>
+                    <li data-target='#carousel-article' data-slide-to='0' class='active'></li>
+                    <li data-target='#carousel-article' data-slide-to='1'></li>
+                    <li data-target='#carousel-article' data-slide-to='2'></li>
+                    <li data-target='#carousel-article' data-slide-to='3'></li>
+                    <li data-target='#carousel-article' data-slide-to='4'></li>
+                    
+                </ol>
+                {{!-- Contains ALL slides: --}}
+                <div class='carousel-inner' role='listbox'>
+                    {{#each articleDoc}}
+                    {{!-- Individual Slide --}}
+                    <div class='item  carouselImage {{#if @first}}active{{/if}}'>
+                        <img src='{{image}}' style='height:100%'>
+                        <div class='carousel-caption'>
+                        <a href='{{link}}' target='_blank'> 
+                            <h3>{{title}}</h3>
+                        </a>
+                        </div>
+                    </div> {{!-- END OF Slide --}}
+                    {{/each}}
+                </div> {{!-- End of Slide Container --}}
+
+                {{!-- Controls .icon-prev .icon-next --}}
+                <a class='left carousel-control' href='#carousel-article' role='button' data-slide='prev'>
+                    <span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
+                    <span class='sr-only'></span>
+                </a>
+                <a class='right carousel-control' href='#carousel-article' role='button' data-slide='next'>
+                    <span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>
+                    <span class='sr-only'>Next</span>
+                </a>
+
+            </div> {{!-- End of Carousel--}}
+        </div>
+    </div> {{!-- End of Column--}}
+</div> End of Row

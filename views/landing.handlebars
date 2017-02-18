@@ -1,0 +1,68 @@
+
+{{#each articleDoc}}
+    <div class='row well well-lg main-info'>
+       
+        <div class='col-md-6'>
+            <div class='row'>
+                <div class='col-md-12'>
+                        <div class='panel panel-success'>
+
+                            <div class='panel-heading'>
+                                <h3> {{this.title}}</h3>
+                            </div>
+
+                            <div class='panel-body bg-info'>
+                                <a href='{{this.link}}' target='_blank'> {{this.link}}</a>
+                            </div>
+                            
+                            
+                           
+                        </div>
+                        <button type='button' class='btn btn-primary btn-block comment' data-id='{{_id}}' data-toggle='modal' data-target='#{{_id}}'>Comment</button>
+                </div>
+            </div>
+        </div>
+        <div class='col-md-6'>
+            <div class='panel panel-success'>
+                <div class='panel-body panel-body-comments'>
+                    {{#each note}}
+                    <div>
+                        <form action='/delete/comment/{{this.id}}?_method=DELETE' method='POST'>
+                            <button type='submit' class='delete-comment' data-id='{{this._id}}' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+                        </form>
+                        <h4>{{this.name}}: </h4>
+                        <p> {{this.body}}</p> 
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+            {{!-- MODAL --}}
+
+        <div class="modal fade" id="{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action='/articles/{{_id}}' method='POST'>
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <input type='text' id="name-{{_id}}" placeholder='Name...'></input>
+                        </div>
+
+                        <div class="modal-body">
+                            <textarea id='body-{{this._id}}' placeholder='Make Comment...'></textarea> 
+                        </div>
+
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                            <button type='submit' class='btn btn-primary save_comment' data-id='{{_id}}'>Submit Comment</button>
+                        </div>
+
+                    </form> {{!-- END OF FORM --}}
+                </div>
+            </div>
+        </div> {{!-- END OF MODAL --}}
+
+    </div> {{!-- End of Row --}}
+{{/each}}
