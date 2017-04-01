@@ -1,4 +1,4 @@
-# [newsScrape] (https://rhouse-news-scrape.herokuapp.com/)
+# [newsScrape](https://rhouse-news-scrape.herokuapp.com/)
 Scraping the Internet...for you
 
 ## Objective
